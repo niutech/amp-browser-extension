@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Options for AMP Browser Extension</title>
+    <style>
+        #saved {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<p><label><input type="checkbox" id="automode"> Load <a href="https://www.ampproject.org/" target="_blank">AMP</a> or <a href="https://www.mipengine.org/" target="_blank">MIP</a> pages automatically</label></p>
+<p hidden><label><input type="checkbox" id="gwlmode"> Load <a href="https://support.google.com/webmasters/answer/6211428" target="_blank">Google Web Light</a> pages if AMP HTML not detected (extreme!)</label></p>
+<p hidden><label for="gwlexceptions">Google Web Light excepted URLs (one per line):</label><br><textarea id="gwlexceptions" rows="6" cols="60"></textarea></p>
+<p><label><input type="checkbox" id="cachemode"> Use <a href="https://developers.google.com/amp/cache/" target=_blank">Google AMP Cache</a> (faster)</label></p>
+<p hidden><label><input type="checkbox" id="proxymode"> Use <a href="https://developer.chrome.com/multidevice/data-compression" target=_blank">Google Data Compression Proxy</a> (less data; under Google <a href="https://www.google.com/policies/" target="_blank">ToS</a>)</label></p>
+<p><label><input type="checkbox" id="savedatamode"> Add <a href="https://developers.google.com/web/updates/2016/02/save-data" target=_blank">Save-Data</a> client hint request header</label></p>
+<p><label><input type="checkbox" id="devmode"> Load AMP HTML pages in <a href="https://www.ampproject.org/docs/guides/validate" target="_blank">developer mode</a></label></p>
+<p><label><input type="checkbox" id="adblockmode"> Block ads and tracking scripts</label></p>
+<div id="ifadblockmode">
+    <p><label for="blocked">Blocked URLs (check <a href="https://developer.chrome.com/extensions/match_patterns" target="_blank">patterns</a>; one per line):</label><br><textarea rows="6" cols="60" id="blocked"></textarea></p>
+    <p><label for="excepted">Excepted URLs (check <a href="https://developer.chrome.com/extensions/match_patterns" target="_blank">patterns</a>; one per line):</label><br><textarea rows="6" cols="60" id="excepted"></textarea></p>
+</div>
+<p id="saved" hidden>Saved!</p>
+<!--<h1>Data Compression Statistics:</h1>
+<p><b>This session:</b> <span id="session-mbytes"></span> MB compressed, <span id="session-mbytes-original"></span> MB original, <span id="session-percent"></span> % savings</p>
+<p><b>Total:</b> <span id="total-mbytes"></span> MB compressed, <span id="total-mbytes-original"></span> MB original, <span id="total-percent"></span> % savings</p>
+<p>Statistics are estimated based on Content-Length headers. Refreshed every 5 minutes.</p>
+<div class="ct-chart ct-major-twelfth"></div>
+<p><input type="button" id="reset" value="Reset"></p>
+<link rel="stylesheet" href="chartist.min.css">
+<script src="chartist.min.js"></script>-->
+<script src="options.js"></script>
+</body>
+</html>

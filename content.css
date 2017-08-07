@@ -1,0 +1,9 @@
+html[amp], html[⚡] {
+    max-width: 1000px;
+    margin: auto;
+}
+
+#lite-atf-content {
+    max-width: 800px;
+    margin: auto;
+}
