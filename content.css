@@ -7,3 +7,9 @@ html[amp], html[⚡] {
     max-width: 800px;
     margin: auto;
 }
+
+g-inner-card div + img[alt="AMP"] {
+    position: relative;
+    top: 36px;
+    left: calc(100% - 28px);
+}

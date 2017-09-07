@@ -52,6 +52,8 @@
         excepted.addEventListener("change", function () {
             localStorage.setItem("excepted", this.value);
             background.excepted = this.value;
+            background.unsetAdBlock();
+            background.setAdBlock();
             triggerSaved();
         });
         blocked.addEventListener("change", function () {
