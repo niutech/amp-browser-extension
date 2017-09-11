@@ -9,11 +9,6 @@
         location.replace(url);
     }
 
-    function getCacheUrl(url) {
-        url = new URL(url);
-        return 'https://' + url.hostname.replace(/-/g, '--').replace(/\./g, '-') + '.cdn.ampproject.org/c/' + (url.protocol === "https:" ? 's/' : '') + url.hostname + url.pathname + url.search;
-    }
-
     function cachedFetch(url, options) {
         var cached = sessionStorage.getItem(hashCode(url));
         if (cached) {
@@ -75,7 +70,7 @@
                             });
                         });
                     } else { //Google fallback
-                        cachedFetch(location.href).then(function (res) {
+                        cachedFetch(location.href + '&AMPBrowser').then(function (res) {
                             return res.text();
                         }).then(function (text) {
                             var html = (new DOMParser()).parseFromString(text, "text/html");
@@ -101,7 +96,6 @@
             isAmp: isAmp,
             url: location.href,
             ampUrl: linkAmp ? linkAmp.href : "",
-            ampCacheUrl: linkAmp ? getCacheUrl(linkAmp.href) : "",
             canonicalUrl: linkCanonical ? linkCanonical.href : ""
         };
 
