@@ -110,7 +110,7 @@ triggerSaveData();
 
 var exceptedRegExp = new RegExp();
 var onCancel = function (details) {
-    return {cancel: ampTabs[details.tabId] && !exceptedRegExp.test(ampTabs[details.tabId].url)};
+    return {cancel: ampTabs[details.tabId] && (exceptedRegExp.toString() === '/(?:)/' || !exceptedRegExp.test(ampTabs[details.tabId].url))};
 };
 var setAdBlock = function () {
     exceptedRegExp = new RegExp(excepted.split('\n').filter(function (e) { return e; }).join('|').replace(/\./g, '\\.').replace(/\*/g, '.*'));
