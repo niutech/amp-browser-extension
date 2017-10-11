@@ -1,11 +1,24 @@
-html[amp], html[⚡] {
+html[amp] #article,
+html[amp] .article-wrap,
+html[amp] .art-wrapper,
+html[amp] .caas,
+html[amp] #cnbc-body,
+html[amp] .container,
+html[amp] #container,
+html[amp] .model-article,
+html[amp] .reuters-amp,
+html[⚡] #article,
+html[⚡] .article-wrap,
+html[⚡] .art-wrapper,
+html[⚡] .caas,
+html[⚡] #cnbc-body,
+html[⚡] .container,
+html[⚡] #container,
+html[⚡] .model-article,
+html[⚡] .reuters-amp {
     max-width: 1000px;
-    margin: auto;
-}
-
-#lite-atf-content {
-    max-width: 800px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 g-inner-card div + img[alt="AMP"] {

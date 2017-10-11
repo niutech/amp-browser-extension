@@ -106,5 +106,5 @@
         });
     }
 
-    setTimeout(init, 10);
+    setTimeout(init, 100);
 }());

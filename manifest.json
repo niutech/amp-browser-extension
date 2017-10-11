@@ -3,7 +3,7 @@
   "name": "AMP Browser Extension",
   "short_name": "AMP Browser",
   "description": "Accelerate web browsing by automatically loading AMP or MIP versions of web pages, saving data and blocking ads.",
-  "version": "0.8",
+  "version": "0.9",
   "author": "AMP Browser",
   "homepage_url": "http://ampbrowser.com",
   "icons": {
