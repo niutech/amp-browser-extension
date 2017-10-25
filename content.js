@@ -12,13 +12,16 @@
     function cachedFetch(url, options) {
         var cached = sessionStorage.getItem(hashCode(url));
         if (cached) {
-            return Promise.resolve(new Response(new Blob([cached])));
+            return Promise.resolve(JSON.parse(cached));
         }
         return fetch(url, options).then(function (res) {
             res.clone().text().then(function (content) {
-                sessionStorage.setItem(hashCode(url), content);
+                try {
+                    sessionStorage.setItem(hashCode(url), content);
+                } catch (e) {
+                }
             });
-            return res;
+            return res.json();
         });
     }
 
@@ -57,15 +60,14 @@
                 var urls = Array.prototype.map.call(serpLinks, function (link) {
                     return encodeURIComponent(link.href).replace(/'/g, "%27");
                 }).slice(0, 50);
-                cachedFetch("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20jsonpost%20where%20url%3D'https%3A%2F%2Facceleratedmobilepageurl.googleapis.com%2Fv1%2FampUrls%3AbatchGet%3Fkey%3DAIzaSyCcQl-54dUpBvgPOISXs9CoAur9LFngUOg'%20and%20postdata%3D'urls%3D" + encodeURIComponent(urls.join("&urls=")) + "'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&_maxage=2592000").then(function (res) {
-                    return res.json();
-                }).then(function (json) {
+                cachedFetch("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20jsonpost%20where%20url%3D'https%3A%2F%2Facceleratedmobilepageurl.googleapis.com%2Fv1%2FampUrls%3AbatchGet%3Fkey%3DAIzaSyCcQl-54dUpBvgPOISXs9CoAur9LFngUOg'%20and%20postdata%3D'urls%3D" + encodeURIComponent(urls.join("&urls=")) + "'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&_maxage=2592000").then(function (json) {
                     if (json && json.query && json.query.results && json.query.results.postresult && json.query.results.postresult.json) { //AMP Cache API
                         serpLinks.forEach(function (link) {
                             [].concat(json.query.results.postresult.json.ampUrls).forEach(function (url) {
                                 if (url && url.originalUrl === link.href) {
                                     link.href = url.cdnAmpUrl;
                                     link.innerHTML += ampIcon;
+                                    link.onmousedown = null;
                                 }
                             });
                         });
@@ -81,6 +83,7 @@
                                         if (ampLink.dataset.ampCur === link.href) {
                                             link.href = ampLink.href;
                                             link.innerHTML += ampIcon;
+                                            link.onmousedown = null;
                                         }
                                     });
                                 });
