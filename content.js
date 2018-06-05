@@ -1,4 +1,4 @@
-// Copyright 2017 Jerzy Głowacki
+// Copyright 2018 Jerzy Głowacki
 
 (function () {
     var html = document.documentElement;
@@ -97,7 +97,7 @@
         var amp = {
             source: "AMPBrowser",
             isAmp: isAmp,
-            url: location.href,
+            hostname: location.hostname,
             ampUrl: linkAmp ? linkAmp.href : "",
             canonicalUrl: linkCanonical ? linkCanonical.href : ""
         };
@@ -109,5 +109,11 @@
         });
     }
 
-    setTimeout(init, 100);
+    var tries = 5;
+    var interval = setInterval(function () {
+        if (document.querySelector('head') || !tries--) {
+            clearInterval(interval);
+            init();
+        }
+    }, 100);
 }());

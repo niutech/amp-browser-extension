@@ -1,28 +1,28 @@
-html[amp] #article,
-html[amp] .article-wrap,
-html[amp] .art-wrapper,
-html[amp] .caas,
-html[amp] #cnbc-body,
-html[amp] .container,
-html[amp] #container,
-html[amp] .model-article,
-html[amp] .reuters-amp,
-html[⚡] #article,
-html[⚡] .article-wrap,
-html[⚡] .art-wrapper,
-html[⚡] .caas,
-html[⚡] #cnbc-body,
-html[⚡] .container,
-html[⚡] #container,
-html[⚡] .model-article,
-html[⚡] .reuters-amp {
+﻿html[amp] .amp-page-body, html[⚡] .amp-page-body,
+html[amp] .art-wrapper, html[⚡] .art-wrapper,
+html[amp] #article, html[⚡] #article,
+html[amp] .article-content, html[⚡] .article-content,
+html[amp] .article-wrap, html[⚡] .article-wrap,
+html[amp] .caas, html[⚡] .caas,
+html[amp] #cnbc-body, html[⚡] #cnbc-body,
+html[amp] .container, html[⚡] .container,
+html[amp] #container, html[⚡] #container,
+html[amp] .content-well-v2, html[⚡] .content-well-v2,
+html[amp] .model-article, html[⚡] .model-article,
+html[amp] .reuters-amp, html[⚡] .reuters-amp,
+html[amp] .story-container, html[⚡] .story-container,
+html[amp] amp-img, html[⚡] amp-img {
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
 
-g-inner-card div + img[alt="AMP"] {
+g-inner-card {
     position: relative;
-    top: 36px;
-    left: calc(100% - 28px);
+}
+
+g-inner-card div + img[alt="AMP"] {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
 }
