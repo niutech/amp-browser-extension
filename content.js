@@ -56,7 +56,7 @@
         } else if (isGoogleSerp) {
             document.addEventListener("DOMContentLoaded", function () {
                 var ampIcon = " <img src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cpath%20fill%3D%22%230379C4%22%20d%3D%22M26.6%201l-4%2015.5h3.7c1%200%201.4.8.8%201.8l-12.7%2021c1.8.4%203.7.7%205.7.7%2011%200%2020-9%2020-20%200-8.7-5.6-16.2-13.4-19zm-9.3%2022.4h-3.6c-1%200-1.4-.8-.8-1.8L25.6.8C24%20.3%2022%200%2020%200%209%200%200%209%200%2020c0%208.7%205.6%2016.2%2013.4%2019l4-15.6z%22%2F%3E%3C%2Fsvg%3E' width='12' height='12' alt='AMP' title='AMP'>";
-                var serpLinks = document.querySelectorAll("#res h3 a[href]:not([href*='google.com']):not([href*='twitter.com']), #res g-inner-card a[href]:not([href*='google.com']):not([href*='twitter.com']), #res .card-section a[href]:not([href*='google.com']):not([href*='twitter.com'])");
+                var serpLinks = document.querySelectorAll("#res a[href][ping]:not([href*='.google.']):not([href*='twitter.com']):not([href*='wikipedia.org']):not([href*='googleusercontent.com'])");
                 var urls = Array.prototype.map.call(serpLinks, function (link) {
                     return encodeURIComponent(link.href).replace(/'/g, "%27");
                 }).slice(0, 50);

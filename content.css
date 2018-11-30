@@ -1,8 +1,10 @@
 ﻿html[amp] .amp-page-body, html[⚡] .amp-page-body,
 html[amp] .art-wrapper, html[⚡] .art-wrapper,
+html[amp] article, html[⚡] article,
 html[amp] #article, html[⚡] #article,
 html[amp] .article-content, html[⚡] .article-content,
 html[amp] .article-wrap, html[⚡] .article-wrap,
+html[amp] .article-text, html[⚡] .article-text,
 html[amp] .caas, html[⚡] .caas,
 html[amp] #cnbc-body, html[⚡] #cnbc-body,
 html[amp] .container, html[⚡] .container,
@@ -11,6 +13,7 @@ html[amp] .content-well-v2, html[⚡] .content-well-v2,
 html[amp] .model-article, html[⚡] .model-article,
 html[amp] .reuters-amp, html[⚡] .reuters-amp,
 html[amp] .story-container, html[⚡] .story-container,
+html[amp] .post-page, html[⚡] .post-page,
 html[amp] amp-img, html[⚡] amp-img {
     max-width: 1000px;
     margin-left: auto;

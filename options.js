@@ -6,14 +6,14 @@
         var devMode = document.getElementById("devmode");
         var cacheMode = document.getElementById("cachemode");
         var saveDataMode = document.getElementById("savedatamode");
-        var excepted = document.getElementById("excepted");
+        var excluded = document.getElementById("excluded");
         var saved = document.getElementById("saved");
 
         autoMode.checked = background.autoMode;
         devMode.checked = background.devMode;
         cacheMode.checked = background.cacheMode;
         saveDataMode.checked = background.saveDataMode;
-        excepted.value = background.excepted;
+        excluded.value = background.excluded;
 
         autoMode.addEventListener("change", function () {
             localStorage.setItem("autoMode", this.checked);
@@ -36,9 +36,9 @@
             background.triggerSaveData();
             triggerSaved();
         });
-        excepted.addEventListener("change", function () {
-            localStorage.setItem("excepted", this.value);
-            background.excepted = this.value;
+        excluded.addEventListener("change", function () {
+            localStorage.setItem("excluded", this.value);
+            background.excluded = this.value;
             triggerSaved();
         });
 

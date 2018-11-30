@@ -5,7 +5,7 @@ var autoMode = localStorage.getItem("autoMode") !== "false";
 var devMode = localStorage.getItem("devMode") === "true";
 var cacheMode = localStorage.getItem("cacheMode") !== "false";
 var saveDataMode = localStorage.getItem("saveDataMode") !== "false";
-var excepted = localStorage.getItem("excepted") || "example.com";
+var excluded = localStorage.getItem("excluded") || "example.com";
 var googleUrls = ['https://*.google.com/search*', 'https://*.google.co.in/search*', 'https://*.google.co.jp/search*', 'https://*.google.co.uk/search*', 'https://*.google.de/search*', 'https://*.google.fr/search*', 'https://*.google.ru/search*', 'https://*.google.com.br/search*', 'https://*.google.com.hk/search*', 'https://*.google.it/search*', 'https://*.google.es/search*', 'https://*.google.ca/search*', 'https://*.google.com.mx/search*', 'https://*.google.co.kr/search*', 'https://*.google.com.tw/search*', 'https://*.google.com.tr/search*', 'https://*.google.com.au/search*', 'https://*.google.com.id/search*', 'https://*.google.pl/search*', 'https://*.google.com.eg/search*', 'https://*.google.co.th/search*', 'https://*.google.com.sa/search*', 'https://*.google.com.ar/search*', 'https://*.google.nl/search*', 'https://*.google.com.vn/search*', 'https://*.google.com.ph/search*', 'https://*.google.com.co/search*', 'https://*.google.com.ua/search*', 'https://*.google.com.ng/search*', 'https://*.google.com.bd/search*'];
 var getAmpUrl = function (url) {
     url = new URL(url);
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(function (amp, sender, sendResponse) {
     if (ampTabs[sender.tab.id] && ampTabs[sender.tab.id].canonicalUrl) {
         amp.previousUrl = ampTabs[sender.tab.id].canonicalUrl;
     }
-    if ((ampTabs[sender.tab.id] && ampTabs[sender.tab.id].noRedirect) || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || excepted.split('\n').indexOf(amp.hostname) > -1) {
+    if ((ampTabs[sender.tab.id] && ampTabs[sender.tab.id].noRedirect) || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || excluded.split('\n').indexOf(amp.hostname) > -1) {
         amp.noRedirect = true;
     }
     ampTabs[sender.tab.id] = amp;
@@ -65,7 +65,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function (details) {
             var headers = details.requestHeaders;
             headers.forEach(function (header) {
                 if (header.name.toLowerCase() === 'user-agent') {
-                    header.value = 'Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Mobile Safari/537.36';
+                    header.value = 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Mobile Safari/537.36';
                 }
             });
             return {requestHeaders: headers};
