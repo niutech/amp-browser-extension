@@ -1,4 +1,4 @@
-// Copyright 2018 Jerzy Głowacki
+// Copyright 2019 Jerzy Głowacki
 
 var autoMode = true;
 var devMode = false;
@@ -12,7 +12,7 @@ var getAmpUrl = function (url) {
 };
 var googleUrls = ['https://*.google.com/search*', 'https://*.google.co.in/search*', 'https://*.google.co.jp/search*', 'https://*.google.co.uk/search*', 'https://*.google.de/search*', 'https://*.google.fr/search*', 'https://*.google.ru/search*', 'https://*.google.com.br/search*', 'https://*.google.com.hk/search*', 'https://*.google.it/search*', 'https://*.google.es/search*', 'https://*.google.ca/search*', 'https://*.google.com.mx/search*', 'https://*.google.co.kr/search*', 'https://*.google.com.tw/search*', 'https://*.google.com.tr/search*', 'https://*.google.com.au/search*', 'https://*.google.com.id/search*', 'https://*.google.pl/search*', 'https://*.google.com.eg/search*', 'https://*.google.co.th/search*', 'https://*.google.com.sa/search*', 'https://*.google.com.ar/search*', 'https://*.google.nl/search*', 'https://*.google.com.vn/search*', 'https://*.google.com.ph/search*', 'https://*.google.com.co/search*', 'https://*.google.com.ua/search*', 'https://*.google.com.ng/search*', 'https://*.google.com.bd/search*'];
 
-chrome.storage.sync.get(null, function(storage) {
+chrome.storage.sync.get(null, function (storage) {
     autoMode = storage.autoMode !== false;
     devMode = storage.devMode === true;
     cacheMode = storage.cacheMode !== false;
@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(function (amp, sender, sendResponse) {
     if (ampTabs[sender.tab.id] && ampTabs[sender.tab.id].canonicalUrl) {
         amp.previousUrl = ampTabs[sender.tab.id].canonicalUrl;
     }
-    if ((ampTabs[sender.tab.id] && ampTabs[sender.tab.id].noRedirect) || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || (excluded || '').split('\n').indexOf(amp.hostname) > -1) {
+    if ((ampTabs[sender.tab.id] && ampTabs[sender.tab.id].noRedirect) || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || (excluded || '').indexOf(amp.hostname) > -1) {
         amp.noRedirect = true;
     }
     ampTabs[sender.tab.id] = amp;

@@ -10,41 +10,41 @@
         var saved = document.getElementById("saved");
 
         chrome.storage.sync.get(null, function(storage) {
-            autoMode.checked = storage.autoMode;
-            devMode.checked = storage.devMode;
-            cacheMode.checked = storage.cacheMode;
-            saveDataMode.checked = storage.saveDataMode;
-            excluded.value = storage.excluded;
+            autoMode.checked = storage.autoMode !== false;
+            devMode.checked = storage.devMode === true;
+            cacheMode.checked = storage.cacheMode !== false;
+            saveDataMode.checked = storage.saveDataMode !== false;
+            excluded.value = storage.excluded || "example.com";
         });
 
         autoMode.addEventListener("change", function () {
-            chrome.storage.sync.set({autoMode: this.checked}, function () {
-                background.autoMode = this.checked;
+            chrome.storage.sync.set({autoMode: autoMode.checked}, function () {
+                background.autoMode = autoMode.checked;
                 triggerSaved();
             });
         });
         devMode.addEventListener("change", function () {
-            chrome.storage.sync.set({devMode: this.checked}, function () {
-                background.devMode = this.checked;
+            chrome.storage.sync.set({devMode: devMode.checked}, function () {
+                background.devMode = devMode.checked;
                 triggerSaved();
             });
         });
         cacheMode.addEventListener("change", function () {
-            chrome.storage.sync.set({cacheMode: this.checked}, function () {
-                background.cacheMode = this.checked;
+            chrome.storage.sync.set({cacheMode: cacheMode.checked}, function () {
+                background.cacheMode = cacheMode.checked;
                 triggerSaved();
             });
         });
         saveDataMode.addEventListener("change", function () {
-            chrome.storage.sync.set({saveDataMode: this.checked}, function () {
-                background.saveDataMode = this.checked;
+            chrome.storage.sync.set({saveDataMode: saveDataMode.checked}, function () {
+                background.saveDataMode = saveDataMode.checked;
                 background.triggerSaveData();
                 triggerSaved();
             });
         });
         excluded.addEventListener("change", function () {
-            chrome.storage.sync.set({excluded: this.value}, function () {
-                background.excluded = this.value;
+            chrome.storage.sync.set({excluded: excluded.value}, function () {
+                background.excluded = excluded.value;
                 triggerSaved();
             });
         });
