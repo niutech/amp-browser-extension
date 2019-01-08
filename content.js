@@ -1,4 +1,4 @@
-// Copyright 2018 Jerzy Głowacki
+// Copyright 2019 Jerzy Głowacki
 
 (function () {
     var html = document.documentElement;
@@ -37,7 +37,7 @@
 
     function init() {
         var isAmp = html.hasAttribute("amp") || html.hasAttribute("⚡") || html.hasAttribute('mip');
-        var linkAmp = document.querySelector("link[rel='amphtml'], link[rel='miphtml']");
+        var linkAmp = document.querySelector("link[rel='amphtml']") || document.querySelector("link[rel='miphtml']");
         var linkCanonical = document.querySelector("link[rel='canonical']");
         var isGoogleCache = location.hostname.indexOf("cdn.ampproject.org") > -1;
         var isGoogleUrl = location.hostname.indexOf("google.") > -1 && location.pathname === "/url";
@@ -57,13 +57,11 @@
             document.addEventListener("DOMContentLoaded", function () {
                 var ampIcon = " <img src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cpath%20fill%3D%22%230379C4%22%20d%3D%22M26.6%201l-4%2015.5h3.7c1%200%201.4.8.8%201.8l-12.7%2021c1.8.4%203.7.7%205.7.7%2011%200%2020-9%2020-20%200-8.7-5.6-16.2-13.4-19zm-9.3%2022.4h-3.6c-1%200-1.4-.8-.8-1.8L25.6.8C24%20.3%2022%200%2020%200%209%200%200%209%200%2020c0%208.7%205.6%2016.2%2013.4%2019l4-15.6z%22%2F%3E%3C%2Fsvg%3E' width='12' height='12' alt='AMP' title='AMP'>";
                 var serpLinks = document.querySelectorAll("#res a[href][ping]:not([href*='.google.']):not([href*='twitter.com']):not([href*='wikipedia.org']):not([href*='googleusercontent.com'])");
-                var urls = Array.prototype.map.call(serpLinks, function (link) {
-                    return encodeURIComponent(link.href).replace(/'/g, "%27");
-                }).slice(0, 50);
-                cachedFetch("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20jsonpost%20where%20url%3D'https%3A%2F%2Facceleratedmobilepageurl.googleapis.com%2Fv1%2FampUrls%3AbatchGet%3Fkey%3DAIzaSyCcQl-54dUpBvgPOISXs9CoAur9LFngUOg'%20and%20postdata%3D'urls%3D" + encodeURIComponent(urls.join("&urls=")) + "'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&_maxage=2592000").then(function (json) {
-                    if (json && json.query && json.query.results && json.query.results.postresult && json.query.results.postresult.json) { //AMP Cache API
+                var urls = Array.prototype.map.call(serpLinks, function (link) { return link.href; }).slice(0, 50);
+                cachedFetch("https://acceleratedmobilepageurl.googleapis.com/v1/ampUrls:batchGet?key=AIzaSyCcQl-54dUpBvgPOISXs9CoAur9LFngUOg", {method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify({urls: urls})}).then(function (json) {
+                    if (json) { //AMP Cache API
                         serpLinks.forEach(function (link) {
-                            [].concat(json.query.results.postresult.json.ampUrls).forEach(function (url) {
+                            [].concat(json.ampUrls).forEach(function (url) {
                                 if (url && url.originalUrl === link.href) {
                                     link.href = url.cdnAmpUrl;
                                     link.innerHTML += ampIcon;

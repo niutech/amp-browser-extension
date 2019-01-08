@@ -9,37 +9,44 @@
         var excluded = document.getElementById("excluded");
         var saved = document.getElementById("saved");
 
-        autoMode.checked = background.autoMode;
-        devMode.checked = background.devMode;
-        cacheMode.checked = background.cacheMode;
-        saveDataMode.checked = background.saveDataMode;
-        excluded.value = background.excluded;
+        chrome.storage.sync.get(null, function(storage) {
+            autoMode.checked = storage.autoMode;
+            devMode.checked = storage.devMode;
+            cacheMode.checked = storage.cacheMode;
+            saveDataMode.checked = storage.saveDataMode;
+            excluded.value = storage.excluded;
+        });
 
         autoMode.addEventListener("change", function () {
-            localStorage.setItem("autoMode", this.checked);
-            background.autoMode = this.checked;
-            triggerSaved();
+            chrome.storage.sync.set({autoMode: this.checked}, function () {
+                background.autoMode = this.checked;
+                triggerSaved();
+            });
         });
         devMode.addEventListener("change", function () {
-            localStorage.setItem("devMode", this.checked);
-            background.devMode = this.checked;
-            triggerSaved();
+            chrome.storage.sync.set({devMode: this.checked}, function () {
+                background.devMode = this.checked;
+                triggerSaved();
+            });
         });
         cacheMode.addEventListener("change", function () {
-            localStorage.setItem("cacheMode", this.checked);
-            background.cacheMode = this.checked;
-            triggerSaved();
+            chrome.storage.sync.set({cacheMode: this.checked}, function () {
+                background.cacheMode = this.checked;
+                triggerSaved();
+            });
         });
         saveDataMode.addEventListener("change", function () {
-            localStorage.setItem("saveDataMode", this.checked);
-            background.saveDataMode = this.checked;
-            background.triggerSaveData();
-            triggerSaved();
+            chrome.storage.sync.set({saveDataMode: this.checked}, function () {
+                background.saveDataMode = this.checked;
+                background.triggerSaveData();
+                triggerSaved();
+            });
         });
         excluded.addEventListener("change", function () {
-            localStorage.setItem("excluded", this.value);
-            background.excluded = this.value;
-            triggerSaved();
+            chrome.storage.sync.set({excluded: this.value}, function () {
+                background.excluded = this.value;
+                triggerSaved();
+            });
         });
 
         var triggerSaved = function () {
