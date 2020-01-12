@@ -1,23 +1,22 @@
-﻿html[amp] .amp-page-body, html[⚡] .amp-page-body,
-html[amp] .art-wrapper, html[⚡] .art-wrapper,
-html[amp] article, html[⚡] article,
-html[amp] #article, html[⚡] #article,
-html[amp] .article-content, html[⚡] .article-content,
-html[amp] .article-wrap, html[⚡] .article-wrap,
-html[amp] .article-text, html[⚡] .article-text,
-html[amp] .caas, html[⚡] .caas,
-html[amp] #cnbc-body, html[⚡] #cnbc-body,
-html[amp] .container, html[⚡] .container,
-html[amp] #container, html[⚡] #container,
-html[amp] .content-well-v2, html[⚡] .content-well-v2,
-html[amp] .model-article, html[⚡] .model-article,
-html[amp] .reuters-amp, html[⚡] .reuters-amp,
-html[amp] .story-container, html[⚡] .story-container,
-html[amp] .post-page, html[⚡] .post-page,
-html[amp] amp-img, html[⚡] amp-img {
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
+﻿#amp-browser-viewer,
+#amp-browser-viewer body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: menu;
+}
+
+#amp-browser-viewer iframe {
+    display: block;
+    width: 1024px;
+    height: 100%;
+    max-width: 100%;
+    margin: auto;
+    border: 0;
+    background-color: white;
+    box-shadow: windowframe 0 0 3px;
+    resize: horizontal;
 }
 
 g-inner-card {

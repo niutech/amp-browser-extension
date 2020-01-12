@@ -1,4 +1,4 @@
-// Copyright 2018 Jerzy Głowacki
+// Copyright 2020 Jerzy Głowacki
 
 (function () {
     chrome.runtime.getBackgroundPage(function (background) {

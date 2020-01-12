@@ -1,13 +1,7 @@
-// Copyright 2019 Jerzy Głowacki
+// Copyright 2020 Jerzy Głowacki
 
 (function () {
     var html = document.documentElement;
-
-    function stopAndGoTo(url) {
-        window.stop();
-        html.innerHTML = '';
-        location.replace(url);
-    }
 
     function cachedFetch(url, options) {
         var cached = sessionStorage.getItem(hashCode(url));
@@ -36,9 +30,9 @@
     }
 
     function init() {
-        var isAmp = html.hasAttribute("amp") || html.hasAttribute("⚡") || html.hasAttribute('mip');
-        var linkAmp = document.querySelector("link[rel='amphtml']") || document.querySelector("link[rel='miphtml']");
-        var linkCanonical = document.querySelector("link[rel='canonical']");
+        var isAmp = html.hasAttribute("amp") || html.hasAttribute("⚡") || html.hasAttribute("mip");
+        var ampUrl = (document.querySelector("link[rel='amphtml']") || document.querySelector("link[rel='miphtml']") || {}).href;
+        var canonicalUrl = (document.querySelector("link[rel='canonical']") || {}).href;
         var isGoogleCache = location.hostname.indexOf("cdn.ampproject.org") > -1;
         var isGoogleUrl = location.hostname.indexOf("google.") > -1 && location.pathname === "/url";
         var isGoogleSerp = location.hostname.indexOf("google.") > -1 && location.pathname === "/search";
@@ -46,12 +40,14 @@
         if (isGoogleCache) {
             var fwdLink = document.querySelector(".fwdlnk");
             if (fwdLink) {
-                return stopAndGoTo(fwdLink.href);
+                fwdLink.click();
+                return;
             }
         } else if (isGoogleUrl) {
             var aLink = document.querySelector("a[href^='http']");
             if (aLink) {
-                return stopAndGoTo(aLink.href);
+                aLink.click();
+                return;
             }
         } else if (isGoogleSerp) {
             document.addEventListener("DOMContentLoaded", function () {
@@ -62,7 +58,7 @@
                     if (json) { //AMP Cache API
                         serpLinks.forEach(function (link) {
                             [].concat(json.ampUrls).forEach(function (url) {
-                                if (url && url.originalUrl === link.href) {
+                                if ((url || {}).originalUrl === link.href) {
                                     link.href = url.cdnAmpUrl;
                                     link.innerHTML += ampIcon;
                                     link.onmousedown = null;
@@ -96,20 +92,26 @@
             source: "AMPBrowser",
             isAmp: isAmp,
             hostname: location.hostname,
-            ampUrl: linkAmp ? linkAmp.href : "",
-            canonicalUrl: linkCanonical ? linkCanonical.href : ""
+            ampUrl: ampUrl,
+            canonicalUrl: canonicalUrl
         };
+        console.log(amp);
 
         chrome.runtime.sendMessage(amp, function (response) {
-            if (response && response.url) {
-                stopAndGoTo(response.url);
+            if ((response || {}).url) {
+                window.stop();
+                html.id = "amp-browser-viewer";
+                html.innerHTML = "<head>" + Array.prototype.map.call(html.querySelectorAll("meta, title, link[rel~='icon']"), function (el) { return el.outerHTML; }).join('') + "</head><body><iframe src='" + response.url + "' allow='autoplay' allowfullscreen allowpaymentrequest></iframe></body>";
             }
         });
     }
 
-    var tries = 5;
+    var tries = 10;
     var interval = setInterval(function () {
-        if (document.querySelector('head') || !tries--) {
+        console.log('Searching...');
+        var link = document.querySelector("link[rel='amphtml'], link[rel='miphtml'], link[rel='canonical']");
+        if (link || !tries--) {
+            console.log('Found:', link);
             clearInterval(interval);
             init();
         }

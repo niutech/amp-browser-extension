@@ -1,4 +1,4 @@
-// Copyright 2019 Jerzy Głowacki
+// Copyright 2020 Jerzy Głowacki
 
 var autoMode = true;
 var devMode = false;
@@ -27,29 +27,27 @@ chrome.runtime.onMessage.addListener(function (amp, sender, sendResponse) {
     if (amp.source !== "AMPBrowser") {
         return;
     }
-    if (amp.isAmp) {
+    if (amp.isAmp) { // AMP page
         chrome.browserAction.setIcon({tabId: sender.tab.id, path: 'img/icon48.png'});
         chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'AMP HTML enabled. Click to disable.'});
-    } else if (amp.ampUrl) {
+    } else if (amp.ampUrl) { // canonical page with AMP available
         chrome.browserAction.setIcon({tabId: sender.tab.id, path: 'img/icon-inverted48.png'});
         chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'AMP HTML detected. Click to enable.'});
-    } else {
+    } else { // canonical page with no AMP available
         chrome.browserAction.setIcon({tabId: sender.tab.id, path: 'img/icon-inactive48.png'});
         chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'AMP HTML not detected'});
     }
-    if (ampTabs[sender.tab.id] && ampTabs[sender.tab.id].canonicalUrl) {
+    if ((ampTabs[sender.tab.id] || {}).canonicalUrl) {
         amp.previousUrl = ampTabs[sender.tab.id].canonicalUrl;
     }
-    if ((ampTabs[sender.tab.id] && ampTabs[sender.tab.id].noRedirect) || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || (excluded || '').indexOf(amp.hostname) > -1) {
+    if ((ampTabs[sender.tab.id] || {}).noRedirect || (!amp.isAmp && amp.previousUrl === amp.canonicalUrl) || (excluded || '').indexOf(amp.hostname) > -1) {
         amp.noRedirect = true;
     }
     ampTabs[sender.tab.id] = amp;
     if (autoMode) {
-        if (!amp.isAmp && !amp.noRedirect) {
-            if (amp.ampUrl) {
-                sendResponse({url: getAmpUrl(amp.ampUrl)});
-            }
-        } else {
+        if (!amp.noRedirect && !amp.isAmp && amp.ampUrl) {
+            sendResponse({url: getAmpUrl(amp.ampUrl)});
+        } else if (amp.isAmp) {
             amp.noRedirect = false;
         }
     }
